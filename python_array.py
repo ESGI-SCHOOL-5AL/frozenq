@@ -129,7 +129,13 @@ def remove_clusters(Bubble_array, State_array, isdebug=False):
 # =============================================================================
 '''
 This function defines the element that will be shoot at the array
-Output: boolean, ind
+Output:
+------------------------------------------------------------------------------
+bool:   True if shooting element is an operator
+        False if shooting element is a state
+        
+ind:    [1,2] if shooting element is an operator
+        [1,2,3,4] if shooting element is a state
 '''
 def shooting_element():
     boolean=bool(random.getrandbits(1)) #if True: operator, if False=state

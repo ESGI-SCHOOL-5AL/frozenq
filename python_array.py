@@ -18,17 +18,17 @@ import structure
 '''
 Input: 
 ------------------------------------------------------------------------------
-Bubble_array: np.array(nx,ny)-> defines gameboard 
-State_array: np.array(nx,ny)-> gameboard, containing State Vectors 
+Bubble_array: np.array(nh,nw)-> defines gameboard 
+State_array: np.array(nh,nw)-> gameboard, containing State Vectors 
 
 Output: 
 ------------------------------------------------------------------------------
-Bubble_array:   np.array(nx,ny)-> original gameboard plus new row of length ny 
+Bubble_array:   np.array(nh,nw)-> original gameboard plus new row of length nw 
                 containing random numbers (floats) between [1:4]          
 '''
 def Add_new_row(Bubble_array, State_array):
-    (nx,ny)=np.shape(Bubble_array)
-    new_x = [random.randint(1, 4) for p in range(0, ny)]
+    (nh,nw)=np.shape(Bubble_array)
+    new_x = [random.randint(1, 4) for p in range(0, nw)]
     Bubble_array=np.vstack((new_x,Bubble_array))
     return Bubble_array, State_array
 
@@ -38,7 +38,7 @@ def Add_new_row(Bubble_array, State_array):
 '''
 Input: 
 ------------------------------------------------------------------------------
-array: np.array(nx,ny)-> gameboard, containing integers between [1:4] 
+array: np.array(nh,nw)-> gameboard, containing integers between [1:4] 
 
 Output: 
 ------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ def find_clusters(array):
 '''
 Input: 
 ------------------------------------------------------------------------------
-array: np.array(nx,ny)-> gameboard, containing integers between [1:4]
+array: np.array(nh,nw)-> gameboard, containing integers between [1:4]
 column: integer -> column into which the state should be shoot 
 
 Output: 
@@ -98,8 +98,8 @@ def shoot_state(array,state,column):
 '''
 Input: 
 ------------------------------------------------------------------------------
-Bubble_array: np.array(nx,ny)-> gameboard, containing integers between [1:4] 
-State_array: np.array(nx,ny)-> gameboard, containing State Vectors
+Bubble_array: np.array(nh,nw)-> gameboard, containing integers between [1:4] 
+State_array: np.array(nh,nw)-> gameboard, containing State Vectors
 
 Output: 
 ------------------------------------------------------------------------------
@@ -132,8 +132,8 @@ def remove_clusters(Bubble_array, State_array, isdebug=False):
 
 # create gameboard
 # ----------------------------------------------------------------------------
-(nx,ny)=(10,10)
-Bubble_array=np.empty((nx,ny,))
+(nh,nw)=(10,10)
+Bubble_array=np.empty((nh,nw,))
 Bubble_array[:]=np.nan#np.zeros(100).reshape(10,10)
 #print(Bubble_array)
 for i in range(3):
@@ -142,7 +142,7 @@ for i in range(3):
     #plt.imshow(Bubble_array[:10],origin='upper')
     #plt.show()
     
-Bubble_array_final=Bubble_array[:10]
+Bubble_array_final=Bubble_array[:nh]
 plt.figure(101)
 plt.imshow(Bubble_array_final,origin='upper')
 plt.show()

@@ -10,9 +10,9 @@ from qiskit.providers.aer import StatevectorSimulator
 
 import python_array
 
-# Size of the gameboard -> nx,ny
-nx = 2
-ny = 2
+# Size of the gameboard -> nh,nw
+nh = 2
+nw = 2
 
 def apply_operation(state_vector, qc_op):
     # state vector is an array of four complex numbers
@@ -82,8 +82,8 @@ qc_x1 = QuantumCircuit(2)
 qc_x1.x(0)
 
 
-State_array=np.zeros( (nx, ny, 4), dtype=complex)
-Bubble_array=np.full( (nx, ny, 4), np.nan)
+State_array=np.zeros( (nh, nw, 4), dtype=complex)
+Bubble_array=np.full( (nh, nw, 4), np.nan)
 
 State_array[0,0]= np.array([ 1, 0, 0, 0])
 

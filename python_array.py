@@ -29,8 +29,9 @@ Bubble_array:   np.array(nh,nw)-> original gameboard plus new row of length nw
 def Add_new_row(Bubble_array, State_array):
     (nh,nw)=np.shape(Bubble_array)
     new_x = [random.randint(1, 4) for p in range(0, nw)]
-    Bubble_array=np.vstack((new_x,Bubble_array))
-    return Bubble_array[:nw], State_array[:nw]
+    Bubble_array=np.vstack((new_x, Bubble_array))
+    State_array=np.vstack((np.zeros( (1,nw,4), dtype=complex), State_array))
+    return Bubble_array[:nh], State_array[:nh]
 
 # =============================================================================
 # Python -> find clusters
@@ -124,6 +125,7 @@ def remove_clusters(Bubble_array, State_array, isdebug=False):
                 plt.figure(i+10)
                 plt.imshow(Bubble_array)
                 plt.show()
+     return Bubble_array, State_array
 # =============================================================================
 # Create next value for "shooting"-element
 # =============================================================================
@@ -173,6 +175,6 @@ def debug_python_array():
         # find clusters
         # ----------------------------------------------------------------------
 
-        Bubble_array, State_array = remove_clusters(Bubble_array, State_array, True)
+        Bubble_array, State_array = remove_clusters(Bubble_array, State_array, True);
 
-debug_python_array();
+

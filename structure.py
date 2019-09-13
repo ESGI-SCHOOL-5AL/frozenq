@@ -8,7 +8,7 @@ from qiskit.tools.visualization import plot_state_city
 from qiskit.providers.aer import StatevectorSimulator
 
 
-import python_array
+from python_array import *
 
 # Size of the gameboard -> nh,nw
 nh = 2

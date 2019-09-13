@@ -62,6 +62,33 @@ def find_clusters(array):
     com = ndimage.center_of_mass(ones, labels=clustered, index=range(cluster_count))
     return clustered, cluster_count, cluster_sizes, com
 
+
+# =============================================================================
+# Implement shooting operator and shooting state function
+# =============================================================================
+'''
+Input: 
+------------------------------------------------------------------------------
+array: np.array(nx,ny)-> gameboard, containing integers between [1:4]
+column: integer -> column into which the state should be shoot 
+
+Output: 
+------------------------------------------------------------------------------
+index: integer -> index at the first non-nan entry from the bottom is to be found
+'''
+def index_1st_notNan_entry_fromBotttom(array, column):
+    line=array[:,column] #get only the values in column "column" of array
+    ind_full=np.where(np.invert(np.isnan(line)))[0] #get indices at which line-values are not nan
+    if np.shape(ind_full)[0]==0:
+        ind=-1
+    if np.shape(ind_full)[0]!=0:
+        ind=ind_full[-1]
+    return ind     
+    
+def shoot_state(array,state,column):
+    ind=index_1st_notNan_entry_fromBottom(array,column)
+    array[ind,column]=state
+    return array
 # =============================================================================
 # Main
 # =============================================================================

@@ -9,8 +9,8 @@ from qiskit.providers.aer import StatevectorSimulator
 
 
 # Size of the gameboard -> nx,ny
-boardh = 2
-boardw = 2
+nx = 2
+ny = 2
 
 def apply_operation(state_vector, qc_op):
     # state vector is an array of four complex numbers
@@ -43,19 +43,19 @@ def find_match(state_vector):
     return len(mapping)
 
 
-def shoot_state(sv, column, board_vector, board_map):
+def shoot_state(sv, column, State_array, Bubble_array):
     # sv: np.array object describing the state vector shot
     # column: column where to apply it
-    # board_vector: array holding the quantum states at each location
-    # board_map: array holding the indices for the game-mechanics
+    # State_array: array holding the quantum states at each location
+    # Bubble_array: array holding the indices for the game-mechanics
     
     return;
 
-def shoot_operator(qc_op, column, board_vector, board_map):
+def shoot_operator(qc_op, column, State_array, Bubble_array):
     # qc_op: QuantumCircuit object describing the operation to be done
     # column: column where to apply it
-    # board_vector: array holding the quantum states at each location
-    # board_map: array holding the indices for the game-mechanics
+    # State_array: array holding the quantum states at each location
+    # Bubble_array: array holding the indices for the game-mechanics
     
     return;
 
@@ -68,15 +68,15 @@ qc_x1 = QuantumCircuit(2)
 qc_x1.x(0)
 
 
-board_vector=np.zeros( (boardh, boardw, 4), dtype=complex)
-board_map=np.full( (boardh, boardw, 4), np.nan)
+State_array=np.zeros( (nx, ny, 4), dtype=complex)
+Bubble_array=np.full( (nx, ny, 4), np.nan)
 
-board_vector[0,0]= np.array([ 1, 0, 0, 0])
+State_array[0,0]= np.array([ 1, 0, 0, 0])
 
-statevector = apply_operation(board_vector[0,0], qc_x1)
+statevector = apply_operation(State_array[0,0], qc_x1)
 print(statevector)
 
 statevector = apply_operation(statevector, qc_h1)
 print(statevector)
 
-print(board_vector)
+print(State_array)

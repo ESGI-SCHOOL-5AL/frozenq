@@ -8,6 +8,8 @@ from qiskit.tools.visualization import plot_state_city
 from qiskit.providers.aer import StatevectorSimulator
 
 
+import python_array
+
 # Size of the gameboard -> nx,ny
 nx = 2
 ny = 2
@@ -40,24 +42,36 @@ def find_match(state_vector):
             return(i[1])
         
     # if no match found, return the next integer
-    return len(mapping)
+    return len(mapping);
 
-
-def shoot_state(sv, column, State_array, Bubble_array):
-    # sv: np.array object describing the state vector shot
-    # column: column where to apply it
+def shoot_state(state, row, column, State_array, Bubble_array):
+    #### Input
+    # state: np.array object describing the state vector shot
+    # row, column: position where to apply it
     # State_array: array holding the quantum states at each location
     # Bubble_array: array holding the indices for the game-mechanics
-    
-    return;
+    #### Returns
+    # ( State_array, Bubble_array )
 
-def shoot_operator(qc_op, column, State_array, Bubble_array):
+    State_array[row, column] = state;
+    Bubble_array[row, column] = find_match(state);
+
+    return find_clusters(Bubble_array, State_array);
+
+
+def shoot_operator(qc_op, row, column, State_array, Bubble_array):
+    #### Input
     # qc_op: QuantumCircuit object describing the operation to be done
     # column: column where to apply it
     # State_array: array holding the quantum states at each location
     # Bubble_array: array holding the indices for the game-mechanics
+    #### Returns
+    # ( State_array, Bubble_array)
+
+    State_array[row, column] = apply_operation(State_array[row, column], qc_op)
+    Bubble_array[row, column] = find_match(State_array[row, column]);
     
-    return;
+    return find_clusters(Bubble_array, State_array);
 
 
 # QC implementing a particular operator the player can use

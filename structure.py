@@ -14,6 +14,11 @@ import python_array
 nh = 2
 nw = 2
 
+#we need a dictionary
+mapping = ( ([0,0,0,0],0),
+            ([1, 0, 0, 0],1), ([0, 1, 0, 0],2),
+            ([1, 0, 0, 0],3), ([1, 0, 0, 0],4) )
+
 def apply_operation(state_vector, qc_op):
     # state vector is an array of four complex numbers
     # qc_op is a QuantumCircuit object corresponding to the operation
@@ -29,11 +34,6 @@ def apply_operation(state_vector, qc_op):
     simulator = Aer.get_backend('statevector_simulator')
     result = execute(circ, simulator).result()
     return  result.get_statevector(circ);
-
-#we need a dictionary
-mapping = ( ([0,0,0,0],0),
-            ([1, 0, 0, 0],1), ([0, 1, 0, 0],2),
-            ([1, 0, 0, 0],3), ([1, 0, 0, 0],4) )
 
 def find_match(state_vector):
     state_vector=np.conjugate(state_vector)
@@ -73,24 +73,28 @@ def shoot_operator(qc_op, row, column, State_array, Bubble_array):
     
     return find_clusters(Bubble_array, State_array);
 
+def debug_structure():
+    # QC implementing a particular operator the player can use
+    qc_h1 = QuantumCircuit(2)
+    qc_h1.h(0)
 
-# QC implementing a particular operator the player can use
-qc_h1 = QuantumCircuit(2)
-qc_h1.h(0)
-
-qc_x1 = QuantumCircuit(2)
-qc_x1.x(0)
+    qc_x1 = QuantumCircuit(2)
+    qc_x1.x(0)
 
 
-State_array=np.zeros( (nh, nw, 4), dtype=complex)
-Bubble_array=np.full( (nh, nw, 4), np.nan)
+    State_array=np.zeros( (nh, nw, 4), dtype=complex)
+    Bubble_array=np.full( (nh, nw, 4), np.nan)
 
-State_array[0,0]= np.array([ 1, 0, 0, 0])
+    State_array[0,0]= np.array([ 1, 0, 0, 0])
 
-statevector = apply_operation(State_array[0,0], qc_x1)
-print(statevector)
+    statevector = apply_operation(State_array[0,0], qc_x1)
+    print(statevector)
 
-statevector = apply_operation(statevector, qc_h1)
-print(statevector)
+    statevector = apply_operation(statevector, qc_h1)
+    print(statevector)
 
-print(State_array)
+    print(State_array)
+
+# main
+#debug_structure()
+#debug_python_array()

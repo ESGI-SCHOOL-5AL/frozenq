@@ -30,7 +30,7 @@ def Add_new_row(Bubble_array, State_array):
     (nh,nw)=np.shape(Bubble_array)
     new_x = [random.randint(1, 4) for p in range(0, nw)]
     Bubble_array=np.vstack((new_x,Bubble_array))
-    return Bubble_array, State_array
+    return Bubble_array[:nw], State_array[:nw]
 
 # =============================================================================
 # Python -> find clusters
@@ -60,10 +60,10 @@ def find_clusters(array):
             clustered[labelling == k] = cluster_count
             cluster_count += 1
     #figure out cluster_size and cluster position
-    ones = np.ones_like(Bubble_array_final, dtype=int)
+    ones = np.ones_like(array, dtype=int)
     cluster_sizes = ndimage.sum(ones, labels=clustered, index=range(cluster_count)).astype(int)
     com = ndimage.center_of_mass(ones, labels=clustered, index=range(cluster_count))
-    return clustered, cluster_count, cluster_sizes, com
+    return clustered, cluster_count, cluster_sizes, com;
 
 
 # =============================================================================
@@ -107,8 +107,7 @@ Bubble_array
 State_array
 '''
 def remove_clusters(Bubble_array, State_array, isdebug=False):
-    clusters, cluster_count, cluster_sizes,com =
-                 find_clusters(Bubble_array_final)
+    clusters, cluster_count, cluster_sizes,com = find_clusters(Bubble_array)
     for i, (size, center) in enumerate(zip(cluster_sizes, com)):
         if size>2:
             if (isdebug):
@@ -121,36 +120,39 @@ def remove_clusters(Bubble_array, State_array, isdebug=False):
             State_array[np.where((clusters==i))]=np.array([0,0,0,0]);
             
             if (isdebug):
-                #print(Bubble_array_final)
+                #print(Bubble_array)
                 plt.figure(i+10)
-                plt.imshow(Bubble_array_final)
+                plt.imshow(Bubble_array)
                 plt.show()
 
 # =============================================================================
-# Main
+# Debug code
 # =============================================================================
 
 # create gameboard
 # ----------------------------------------------------------------------------
-(nh,nw)=(10,10)
-Bubble_array=np.empty((nh,nw,))
-Bubble_array[:]=np.nan#np.zeros(100).reshape(10,10)
-#print(Bubble_array)
-for i in range(3):
-    Bubble_array=Add_new_row(Bubble_array)
-    #plt.figure(i)
-    #plt.imshow(Bubble_array[:10],origin='upper')
-    #plt.show()
+
+def debug_python_array():
+    (nh,nw)=(10,10)
+    Bubble_array=np.empty((nh,nw,))
+    Bubble_array[:]=np.nan#np.zeros(100).reshape(10,10)
+    State_array=np.zeros( (nh, nw, 4), dtype=complex)
+    #print(Bubble_array)
+    for i in range(3):
+        Bubble_array, State_array = Add_new_row(Bubble_array, State_array)
+        #plt.figure(i)
+        #plt.imshow(Bubble_array[:10],origin='upper')
+        #plt.show()
     
-Bubble_array_final=Bubble_array[:nh]
-plt.figure(101)
-plt.imshow(Bubble_array_final,origin='upper')
-plt.show()
+        plt.figure(101)
+        plt.imshow(Bubble_array,origin='upper')
+        plt.show()
 
-#print(Bubble_array)    
+        #print(Bubble_array)    
 
-# find clusters
-# ----------------------------------------------------------------------------
+        # find clusters
+        # ----------------------------------------------------------------------
 
-Bubble_array_final, State_array = remove_clusters(Bubble_array_final, State_array, True)
+        Bubble_array, State_array = remove_clusters(Bubble_array, State_array, True)
 
+debug_python_array();

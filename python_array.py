@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 import random
 from scipy import ndimage
 
-import structure
+from structure import *
 
 # =============================================================================
 # Function to create new random-number array and append it to the bubble_array
@@ -30,7 +30,12 @@ def Add_new_row(Bubble_array, State_array):
     (nh,nw)=np.shape(Bubble_array)
     new_x = [random.randint(1, 4) for p in range(0, nw)]
     Bubble_array=np.vstack((new_x, Bubble_array))
-    State_array=np.vstack((np.zeros( (1,nw,4), dtype=complex), State_array))
+
+    new_v = (np.zeros( (1,nw,4), dtype=complex)
+    for j in range(len(new_x)): #TODO list.append
+        new[0,j]= mapping[j]
+             
+    State_array=np.vstack(new_v, State_array))
     return Bubble_array[:nh], State_array[:nh]
 
 # =============================================================================

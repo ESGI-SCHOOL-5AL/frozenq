@@ -124,7 +124,21 @@ def remove_clusters(Bubble_array, State_array, isdebug=False):
                 plt.figure(i+10)
                 plt.imshow(Bubble_array)
                 plt.show()
-
+# =============================================================================
+# Create next value for "shooting"-element
+# =============================================================================
+'''
+This function defines the element that will be shoot at the array
+Output: boolean, ind
+'''
+def shooting_element():
+    boolean=bool(random.getrandbits(1)) #if True: operator, if False=state
+    if boolean==False:
+        ind=random.randint(1,4)
+    if boolean==True:
+        ind=random.randint(1,2)
+    return (boolean,ind)
+    
 # =============================================================================
 # Debug code
 # =============================================================================

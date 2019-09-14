@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 import random
 from scipy import ndimage
 
-from structure import *
+import structure as st
 
 # =============================================================================
 # Function to create new random-number array and append it to the bubble_array
@@ -31,11 +31,10 @@ def Add_new_row(Bubble_array, State_array):
     new_x = [random.randint(1, 4) for p in range(0, nw)]
     Bubble_array=np.vstack((new_x, Bubble_array))
 
-    new_v = (np.zeros( (1,nw,4), dtype=complex)
-    for j in range(len(new_x)): #TODO list.append
-        new[0,j]= mapping[j]
-             
-    State_array=np.vstack(new_v, State_array))
+    new_v = np.zeros( (1,nw,4), dtype=complex)
+    new_v[0] = [ st.dict_states[new_x[j]] for j in range(0,nw)]
+    State_array=np.vstack( (new_v, State_array) )
+
     return Bubble_array[:nh], State_array[:nh]
 
 # =============================================================================
@@ -130,7 +129,8 @@ def remove_clusters(Bubble_array, State_array, isdebug=False):
                 plt.figure(i+10)
                 plt.imshow(Bubble_array)
                 plt.show()
-     return Bubble_array, State_array
+    return Bubble_array, State_array
+
 # =============================================================================
 # Create next value for "shooting"-element
 # =============================================================================

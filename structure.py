@@ -81,6 +81,15 @@ def shoot_operator(qc_op, row, column, State_array, Bubble_array):
     
     return pa.find_clusters(Bubble_array, State_array);
 
+def shoot_shooting_element(boolean, ind,row,column,State_array,Bubble_array):
+    if boolean==True: #shooting element = operator
+        shooting_element=dicts_ops[ind]
+        shoot_operator(shooting_element,row,column,State_array,Bubble_array)
+    if boolean==False: #shooting element = state
+        shooting_element=dict_states[ind]
+        shoot_state(shooting_element, row, column, State_array, Bubble_array)
+    return()
+
 def debug_structure():
 
 

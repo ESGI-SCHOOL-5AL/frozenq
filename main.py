@@ -1,4 +1,5 @@
-from structure import *
+import structure as st
 import python_array as pa
 
-debug_structure();
+#st.debug_structure()
+pa.debug_python_array()

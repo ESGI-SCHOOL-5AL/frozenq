@@ -15,9 +15,18 @@ nh = 2
 nw = 2
 
 #we need a dictionary
-mapping = ( ([0,0,0,0],0),
-            ([1, 0, 0, 0],1), ([0, 1, 0, 0],2),
-            ([1, 0, 0, 0],3), ([1, 0, 0, 0],4) )
+dict_states = ( [0,0,0,0],
+                [1, 0, 0, 0], [0, 1, 0, 0],
+                [1, 0, 0, 0], [1, 0, 0, 0], )
+
+# QC implementing a particular operator the player can use
+qc_h1 = QuantumCircuit(2)
+qc_h1.h(0)
+
+qc_x1 = QuantumCircuit(2)
+qc_x1.x(0)
+
+dicts_ops = (qc_h1, qc_x1, )
 
 def apply_operation(state_vector, qc_op):
     # state vector is an array of four complex numbers
@@ -37,12 +46,12 @@ def apply_operation(state_vector, qc_op):
 
 def find_match(state_vector):
     state_vector=np.conjugate(state_vector)
-    for i in mapping:
-        if np.abs( np.dot(state_vector,i[0]) ) > 0.9:
-            return(i[1])
+    for i in range(len(dict_states)):
+        if np.abs( np.dot(state_vector,dict_states[i]) ) > 0.9:
+            return i
         
     # if no match found, return the next integer
-    return len(mapping);
+    return len(dict_states);
 
 def shoot_state(state, row, column, State_array, Bubble_array):
     #### Input
@@ -74,12 +83,6 @@ def shoot_operator(qc_op, row, column, State_array, Bubble_array):
     return find_clusters(Bubble_array, State_array);
 
 def debug_structure():
-    # QC implementing a particular operator the player can use
-    qc_h1 = QuantumCircuit(2)
-    qc_h1.h(0)
-
-    qc_x1 = QuantumCircuit(2)
-    qc_x1.x(0)
 
 
     State_array=np.zeros( (nh, nw, 4), dtype=complex)
@@ -89,9 +92,11 @@ def debug_structure():
 
     statevector = apply_operation(State_array[0,0], qc_x1)
     print(statevector)
+    print(find_match(statevector))
 
     statevector = apply_operation(statevector, qc_h1)
     print(statevector)
+    print(find_match(statevector))
 
     print(State_array)
 

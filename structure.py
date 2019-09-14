@@ -61,8 +61,8 @@ def shoot_state(ind_state, row, column, Bubble_array, State_array):
     #### Returns
     # ( State_array, Bubble_array )
 
-    State_array[row, column] = dict_states[ind_state];
-    Bubble_array[row, column] = ind_state;
+    State_array[row+1, column] = dict_states[ind_state];
+    Bubble_array[row+1, column] = ind_state;
 
     return pa.remove_clusters(Bubble_array, State_array);
 

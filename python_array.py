@@ -151,7 +151,28 @@ def shooting_element():
     if boolean==True:
         ind=random.randint(1,2)
     return (boolean,ind)
-    
+
+# =============================================================================
+'''
+Plot the gameboard in colour
+Input: Bubble_array
+'''
+def display_array(Bubble_array, nh, nw):
+    fig, ax = plt.subplots(1, 1, tight_layout=True)
+    # make color map
+    my_cmap = matplotlib.colors.ListedColormap(['r', 'g', 'b'])
+    # set the 'bad' values (nan) to be white and transparent
+    my_cmap.set_bad(color='w', alpha=0)
+    # draw the grid
+    for x in range(nw + 1):
+        ax.axhline(x, lw=2, color='k', zorder=5)
+        ax.axvline(x, lw=2, color='k', zorder=5)
+        # draw the boxes
+        ax.imshow(data, interpolation='none', cmap=my_cmap, extent=[0, nw, 0, nh], zorder=0)
+        # turn off the axis labels
+        ax.axis('off')
+
+
 # =============================================================================
 # Debug code
 # =============================================================================
@@ -162,9 +183,9 @@ def shooting_element():
 def debug_python_array():
     (nh,nw)=(10,10)
     Bubble_array=np.empty((nh,nw,))
-    Bubble_array[:]=np.nan#np.zeros(100).reshape(10,10)
+    Bubble_array[:]=np.nan #np.zeros(100).reshape(10,10)
     State_array=np.zeros( (nh, nw, 4), dtype=complex)
-    #print(Bubble_array)
+    display_array(Bubble_array, nh, nw)
     for i in range(3):
         Bubble_array, State_array = Add_new_row(Bubble_array, State_array)
         #plt.figure(i)

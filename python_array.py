@@ -158,24 +158,45 @@ def shooting_element():
 Plot the gameboard in colour
 Input: Bubble_array
 '''
-def display_array(Bubble_array, nh, nw):
+
+
+# =============================================================================
+'''
+Initialize the gameboard plot in colour
+Input: 
+Bubble_array
+nh, nw dimensionas
+Output:
+ fig: figure handle
+ ax: axis handle
+ my_cmap: color map
+
+'''
+def init_display_array(Bubble_array, nh, nw):
     # make a figure + axes
+    plt.ion()
     fig, ax = plt.subplots(1, 1, tight_layout=True)
     # make color map
-    my_cmap = matplotlib.colors.ListedColormap(['r', 'g', 'b', 'y'])
+    #my_cmap = plt.cm.jet
+    my_cmap = matplotlib.colors.ListedColormap(['r', 'g', 'b', 'y', 'k'], N=5)
     # set the 'bad' values (nan) to be white and transparent
-    my_cmap.set_bad(color='w', alpha=0)
+    my_cmap.set_bad(color='w', alpha=1)
     # draw the grid
     for x in range(nw + 1):
         ax.axhline(x, lw=2, color='k', zorder=5)
         ax.axvline(x, lw=2, color='k', zorder=5)
-        # draw the boxes
-        ax.imshow(Bubble_array, interpolation='none', cmap=my_cmap, extent=[0, nw, 0, nh], zorder=0)
-        # turn off the axis labels
-        ax.axis('off')
+    # draw the boxes
+    #ax.imshow(Bubble_array, interpolation='none', cmap=my_cmap, extent=[0, nw, 0, nh], zorder=0)
+    # turn off the axis labels
+    ax.axis('off')
+
     plt.show()
+    return fig, ax, my_cmap
 
+def update_display_array(fig, ax, my_cmap, Bubble_array, nh, nw):
+        ax.imshow(Bubble_array, interpolation='none', cmap=my_cmap, extent=[0, nw, 0, nh], zorder=0) 
 
+    
 # =============================================================================
 # Debug code
 # =============================================================================
@@ -188,6 +209,10 @@ def debug_python_array():
     Bubble_array=np.empty((nh,nw,))
     Bubble_array[:]=np.nan #np.zeros(100).reshape(10,10)
     State_array=np.zeros( (nh, nw, 4), dtype=complex)
+
+    fig, ax, my_cmap = init_display_array(Bubble_array, nh, nw)
+    plt.pause(0.0001)
+    
     for i in range(3):
         Bubble_array, State_array = Add_new_row(Bubble_array, State_array)
         #plt.figure(i)
@@ -198,13 +223,19 @@ def debug_python_array():
         #plt.imshow(Bubble_array,origin='upper')
         #plt.show()
 
-        display_array(Bubble_array, nh, nw)
+        Bubble_array, State_array = remove_clusters(Bubble_array, State_array, False);
+
+        update_display_array(fig, ax, my_cmap, Bubble_array, nh, nw)
+        plt.pause(0.5)
+
+        #display_array(Bubble_array, nh, nw)
     
         #print(Bubble_array)
 
         # find clusters
         # ----------------------------------------------------------------------
 
-        Bubble_array, State_array = remove_clusters(Bubble_array, State_array, False);
-
+    print(Bubble_array)
+    update_display_array(fig, ax, my_cmap, Bubble_array, nh, nw)
+    plt.pause(5)
 

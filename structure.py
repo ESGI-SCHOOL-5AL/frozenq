@@ -84,10 +84,10 @@ def shoot_operator(ind_qc_op, row, column, Bubble_array, State_array):
 
 def shoot_shooting_element(boolean, ind,row,column,Bubble_array,State_array,):
     if boolean==True: #shooting element = operator
-        shoot_operator(ind,row,column,Bubble_array,State_array)
+        Bubble_array,State_array=shoot_operator(ind,row,column,Bubble_array,State_array)
     if boolean==False: #shooting element = state
-        shoot_state(ind, row, column, Bubble_array,State_array)
-    return()
+        Bubble_array,State_array=shoot_state(ind, row, column, Bubble_array,State_array)
+    return (Bubble_array,State_array)
 
 def debug_structure():
 

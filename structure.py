@@ -25,7 +25,7 @@ qc_h1.h(0)
 qc_x1 = QuantumCircuit(2)
 qc_x1.x(0)
 
-dicts_ops = (qc_h1, qc_x1, )
+dict_ops = (qc_h1, qc_x1, )
 
 def apply_operation(state_vector, qc_op):
     # state vector is an array of four complex numbers
@@ -52,7 +52,7 @@ def find_match(state_vector):
     # if no match found, return the next integer
     return len(dict_states);
 
-def shoot_state(state, row, column, State_array, Bubble_array):
+def shoot_state(ind_state, row, column, Bubble_array, State_array):
     #### Input
     # state: np.array object describing the state vector shot
     # row, column: position where to apply it
@@ -61,23 +61,24 @@ def shoot_state(state, row, column, State_array, Bubble_array):
     #### Returns
     # ( State_array, Bubble_array )
 
-    State_array[row, column] = state;
-    Bubble_array[row, column] = find_match(state);
+    State_array[row, column] = dict_state[ind_state];
+    Bubble_array[row, column] = ind_state;
 
     return find_clusters(Bubble_array, State_array);
 
 
-def shoot_operator(qc_op, row, column, State_array, Bubble_array):
+def shoot_operator(ind_qc_op, row, column, Bubble_array, State_array):
     #### Input
-    # qc_op: QuantumCircuit object describing the operation to be done
-    # column: column where to apply it
-    # State_array: array holding the quantum states at each location
+    # ind_qc_op: QuantumCircuit object describing the operation to be done
+    # row, column: position where to apply it
     # Bubble_array: array holding the indices for the game-mechanics
+    # State_array: array holding the quantum states at each location
     #### Returns
-    # ( State_array, Bubble_array)
+    # ( Bubble_array, State_array )
 
-    State_array[row, column] = apply_operation(State_array[row, column], qc_op)
-    Bubble_array[row, column] = find_match(State_array[row, column]);
+    if row>0:
+        State_array[row, column] = apply_operation(State_array[row, column], dict_ops[ind_qc_op])
+        Bubble_array[row, column] = find_match(State_array[row, column]);
     
     return pa.find_clusters(Bubble_array, State_array);
 

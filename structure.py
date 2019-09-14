@@ -7,8 +7,7 @@ from qiskit.tools.visualization import plot_state_city
 
 from qiskit.providers.aer import StatevectorSimulator
 
-
-from python_array import *
+import python_array as pa
 
 # Size of the gameboard -> nh,nw
 nh = 2
@@ -80,7 +79,7 @@ def shoot_operator(qc_op, row, column, State_array, Bubble_array):
     State_array[row, column] = apply_operation(State_array[row, column], qc_op)
     Bubble_array[row, column] = find_match(State_array[row, column]);
     
-    return find_clusters(Bubble_array, State_array);
+    return pa.find_clusters(Bubble_array, State_array);
 
 def debug_structure():
 

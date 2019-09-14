@@ -18,17 +18,17 @@ def Output_shooting_state(boolean, ind):
 # =============================================================================
 # Initialize pop-up windows
 # =============================================================================
-from tkinter import *
+import tkinter as tk
 import sys
 
 class mainWindow(object):
     def __init__(self,master):
         self.master=master
-        self.l=Label(master,text='please indicate the number of the column \n you want to shoot the state/operator to')
+        self.l=tk.Label(master,text='please indicate the number of the column \n you want to shoot the state/operator to')
         self.l.pack()
-        self.e=Entry(master)
+        self.e=tk.Entry(master)
         self.e.pack()
-        self.b=Button(master,text='Ok',command=self.cleanup)
+        self.b=tk.Button(master,text='Ok',command=self.cleanup)
         self.b.pack()
         
     def entryValue(self):
@@ -63,11 +63,18 @@ Bubble_array, state_array=pa.remove_clusters(Bubble_array, state_array)#,isdebug
 #------------------------------------------------------------------------------
 shooting_element=pa.shooting_element()
 Text=Output_shooting_state(shooting_element[0],shooting_element[1])
-root=Tk()
+root=tk.Tk()
 m=mainWindow(root)
 root.mainloop()
-User_input=m.value
+User_input=int(m.value)
+print(User_input)
 
 # shoot element
 #------------------------------------------------------------------------------
-#Bubble_array,State_array=st.shoot_shooting_element(shooting_element[0],shooting_element[1],row,column,Bubble_array,State_array,)
+row=pa.index_1st_notNan_entry_fromBotttom(Bubble_array,User_input)
+print('row',row)
+Bubble_array,state_array=st.shoot_shooting_element(shooting_element[0],shooting_element[1],row,User_input,Bubble_array,state_array,)
+
+plt.figure()
+plt.imshow(Bubble_array)
+plt.show()

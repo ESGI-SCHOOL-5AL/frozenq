@@ -29,13 +29,22 @@ Bubble_array:   np.array(nh,nw)-> original gameboard plus new row of length nw
 '''
 def Add_new_row(Bubble_array, State_array):
     (nh,nw)=np.shape(Bubble_array)
+
+    # Add random basis states
     new_x = [random.randint(1, 4) for p in range(0, nw)]
-    Bubble_array=np.vstack((new_x, Bubble_array))
 
     new_v = np.zeros( (1,nw,4), dtype=complex)
     new_v[0] = [ st.dict_states[new_x[j]] for j in range(0,nw)]
-    State_array=np.vstack( (new_v, State_array) )
 
+    # randomly create superpositions
+    is_super = [random.randint(0, 1) for p in range(0, nw)]
+    for i in range(0,nw):
+        if is_super[i]:
+            new_x[i]=5
+            new_v[0,i] = st.apply_operation(new_v[0,i], st.qc_h1)
+
+    State_array=np.vstack( (new_v, State_array) )
+    Bubble_array=np.vstack((new_x, Bubble_array))
     return Bubble_array[:nh], State_array[:nh]
 
 # =============================================================================

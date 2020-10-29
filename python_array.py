@@ -78,8 +78,7 @@ def find_clusters(array):
     ones = np.ones_like(array, dtype=int)
     cluster_sizes = ndimage.sum(ones, labels=clustered, index=range(cluster_count)).astype(int)
     com = ndimage.center_of_mass(ones, labels=clustered, index=range(cluster_count))
-    return clustered, cluster_count, cluster_sizes, com;
-
+    return clustered, cluster_count, cluster_sizes, com
 
 # =============================================================================
 # Implement shooting operator and shooting state function
@@ -132,8 +131,7 @@ def remove_clusters(Bubble_array, State_array, isdebug=False):
                 plt.show()
                     
             Bubble_array[np.where((clusters==i))]=np.nan
-            State_array[np.where((clusters==i))]=np.array([0,0,0,0]);
-            
+            State_array[np.where((clusters==i))]=np.array([0,0,0,0])            
             if (isdebug):
                 #print(Bubble_array)
                 plt.figure(i+10)
@@ -232,8 +230,7 @@ def debug_python_array():
         #plt.imshow(Bubble_array,origin='upper')
         #plt.show()
 
-        Bubble_array, State_array = remove_clusters(Bubble_array, State_array, False);
-
+        Bubble_array, State_array = remove_clusters(Bubble_array, State_array, False)
         update_display_array(fig, ax, my_cmap, Bubble_array, nh, nw)
         plt.pause(0.5)
 

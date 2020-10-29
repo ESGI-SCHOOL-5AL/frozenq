@@ -41,7 +41,7 @@ def apply_operation(state_vector, qc_op):
     # User the Aer StatevectorSimulator to comput the result
     simulator = Aer.get_backend('statevector_simulator')
     result = execute(circ, simulator).result()
-    return  result.get_statevector(circ);
+    return  result.get_statevector(circ)
 
 def find_match(state_vector):
     state_vector=np.conjugate(state_vector)
@@ -50,7 +50,7 @@ def find_match(state_vector):
             return i
         
     # if no match found, return the next integer
-    return len(dict_states);
+    return len(dict_states)
 
 def shoot_state(ind_state, row, column, Bubble_array, State_array):
     #### Input
@@ -61,10 +61,10 @@ def shoot_state(ind_state, row, column, Bubble_array, State_array):
     #### Returns
     # ( State_array, Bubble_array )
 
-    State_array[row+1, column] = dict_states[ind_state];
-    Bubble_array[row+1, column] = ind_state;
+    State_array[row+1, column] = dict_states[ind_state]
+    Bubble_array[row+1, column] = ind_state
 
-    return pa.remove_clusters(Bubble_array, State_array);
+    return pa.remove_clusters(Bubble_array, State_array)
 
 
 def shoot_operator(ind_qc_op, row, column, Bubble_array, State_array):
@@ -78,9 +78,9 @@ def shoot_operator(ind_qc_op, row, column, Bubble_array, State_array):
 
     if row>0:
         State_array[row, column] = apply_operation(State_array[row, column], dict_ops[ind_qc_op])
-        Bubble_array[row, column] = find_match(State_array[row, column]);
+        Bubble_array[row, column] = find_match(State_array[row, column])
     
-    return pa.remove_clusters(Bubble_array, State_array);
+    return pa.remove_clusters(Bubble_array, State_array)
 
 def shoot_shooting_element(boolean, ind,row,column,Bubble_array,State_array,):
     if boolean==True: #shooting element = operator
